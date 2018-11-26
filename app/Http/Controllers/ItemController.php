@@ -34,9 +34,7 @@ class ItemController extends Controller
         public function allAsXml(){
             $itens = Item::all();
             if($itens != null){
-                foreach ($itens as $item) {
-                    $xml = view('xml.all_item_exibir', ['dados' => $item]);
-                }
+                $xml = view('xml.all_item_exibir', ['dados' => $itens]);
                 return response($xml, 200)
                                 ->header('Content-type', 'application/xml');
             }

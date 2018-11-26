@@ -38,9 +38,7 @@ class PokemonController extends Controller
     public function allAsXml(){
         $bixos = Pokemon::all();
         if($bixos != null){
-            foreach ($bixos as $bixo) {
-                $xml = view('xml.all_bixo_exibir', ['dados' => $bixo]);
-            }
+            $xml = view('xml.all_bixo_exibir', ['dados' => $bixos]);   
             return response($xml, 200)
                             ->header('Content-type', 'application/xml');
         }

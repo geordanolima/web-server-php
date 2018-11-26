@@ -35,9 +35,7 @@ class JogadorController extends Controller
     public function allAsXml(){
         $jogadores = Jogador::all();
         if($jogadores != null){
-            foreach ($jogadores as $jogador) {
-                $xml = view('xml.all_jogador_exibir', ['dados' => $jogador]);
-            }
+            $xml = view('xml.all_jogador_exibir', ['dados' => $jogadores]);
             return response($xml, 200)
                             ->header('Content-type', 'application/xml');
         }

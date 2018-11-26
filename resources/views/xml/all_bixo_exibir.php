@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bixos>
-    <id><?=$dados->id; ?></id>
-    <nome><?=$dados->nome;?></nome>
-    <descricao><?=$dados->descricao;?></descricao>
-    <vida><?=$dados->vida;?></vida>
-    <ataque><?=$dados->ataque;?></ataque>
-    <defesa><?=$dados->defesa;?></defesa>
-    <foto><?=$dados->foto ?></foto>
-    <latitude><?=$dados->lati;?></latitude>
-    <longitude><?=$dados->long;?></longitude>
+    <?php foreach ($dados as $bixo) { ?>
+        <bixo>
+            <id><?=$bixo->id; ?></id>
+            <nome><?=$bixo->nome;?></nome>
+            <descricao><?=$bixo->descricao;?></descricao>
+            <vida><?=$bixo->vida;?></vida>
+            <ataque><?=$bixo->ataque;?></ataque>
+            <defesa><?=$bixo->defesa;?></defesa>
+            <foto><?=$bixo->foto ?></foto>
+            <latitude><?=$bixo->lati;?></latitude>
+            <longitude><?=$bixo->long;?></longitude>
+        </bixo>
+    <?php } ?>
 </bixos>
