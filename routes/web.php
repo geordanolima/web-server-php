@@ -42,3 +42,7 @@ $router->get('/item/xml', 'ItemController@allAsXml');
 $router->get('/item/{id}/json', 'ItemController@showAsJson');
 $router->get('/item/{id}/xml', 'ItemController@showAsXml');
 
+//$router->post('/pokemon/search', 'PokemonController@search');
+$router->post('/pokemon/search', 'PokemonController@search');
+
+

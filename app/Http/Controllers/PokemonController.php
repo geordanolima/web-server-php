@@ -89,4 +89,22 @@ class PokemonController extends Controller
     {
         return view('index', ['teste' => 'testando']); //caminho/nome sem extensao
     }
+
+    public function search(Request $request){
+        $nome = $request->input('nome');
+        $bixos = Pokemon::where('nome', 'like', $nome . '%')->get();
+        if($bixos != null){
+            $dados = ['bicharada' => [] ];
+            foreach ($bixos as $pokemon) {
+                $dados['bicharada'][] = array(
+                    'nome' => $pokemon->nome,
+                    'foto' => $pokemon->img
+                );
+            }
+            $json = json_encode($dados); 
+            return response($json, 200)
+                    ->header('Content-type', 'text/plain')
+                    ->header('Access-Control-Allow-Origin', '*');
+        }
+    }
 }
