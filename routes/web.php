@@ -14,35 +14,36 @@
 // $router->get('/', function () use ($router) {
 //     return $router->app->version();
 // });
+$router->group(['middleware' => 'apiauth'], function() use ($router){
+                                                        
+    $router->get('/', 'PokemonController@index');
 
-$router->get('/', 'PokemonController@index');
+    // tuto os pokemão
+    $router->get('/pokemon/json', 'PokemonController@allAsJson');
+    $router->get('/pokemon/xml', 'PokemonController@allAsXml');
 
-// tuto os pokemão
-$router->get('/pokemon/json', 'PokemonController@allAsJson');
-$router->get('/pokemon/xml', 'PokemonController@allAsXml');
+    // um unico pokemão
+    $router->get('/pokemon/{id}/json', 'PokemonController@showAsJson');
+    $router->get('/pokemon/{id}/xml', 'PokemonController@showAsXml');
 
-// um unico pokemão
-$router->get('/pokemon/{id}/json', 'PokemonController@showAsJson');
-$router->get('/pokemon/{id}/xml', 'PokemonController@showAsXml');
+    // tuto os vivente
+    $router->get('/jogador/json', 'JogadorController@allAsJson');
+    $router->get('/jogador/xml', 'JogadorController@allAsXml');
 
-// tuto os vivente
-$router->get('/jogador/json', 'JogadorController@allAsJson');
-$router->get('/jogador/xml', 'JogadorController@allAsXml');
+    // um unico vivente
+    $router->get('/jogador/{id}/json', 'JogadorController@showAsJson');
+    $router->get('/jogador/{id}/xml', 'JogadorController@showAsXml');
 
-// um unico vivente
-$router->get('/jogador/{id}/json', 'JogadorController@showAsJson');
-$router->get('/jogador/{id}/xml', 'JogadorController@showAsXml');
+    // tuto os item
+    $router->get('/item', 'ItemController@buscaitens');
+    $router->get('/item/json', 'ItemController@allAsJson');
+    $router->get('/item/xml', 'ItemController@allAsXml');
 
-// tuto os item
-$router->get('/item', 'ItemController@buscaitens');
-$router->get('/item/json', 'ItemController@allAsJson');
-$router->get('/item/xml', 'ItemController@allAsXml');
+    // uma só coisa
+    $router->get('/item/{id}/json', 'ItemController@showAsJson');
+    $router->get('/item/{id}/xml', 'ItemController@showAsXml');
 
-// uma só coisa
-$router->get('/item/{id}/json', 'ItemController@showAsJson');
-$router->get('/item/{id}/xml', 'ItemController@showAsXml');
-
-//$router->post('/pokemon/search', 'PokemonController@search');
-$router->post('/pokemon/search', 'PokemonController@search');
-
+    //$router->post('/pokemon/search', 'PokemonController@search');
+    $router->post('/pokemon/search', 'PokemonController@search');
+});
 
