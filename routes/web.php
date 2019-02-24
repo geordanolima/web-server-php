@@ -17,6 +17,9 @@
 $router->group(['middleware' => 'apiauth'], function() use ($router){
                                                         
     $router->get('/', 'PokemonController@index');
+    //cadastrar bixo
+    $router->post('/pokemon','PokemonController@insertPokemon');
+    $router->patch('/pokemon/{id}/','PokemonController@updatePokemon');
 
     // tuto os pokemão
     $router->get('/pokemon/json', 'PokemonController@allAsJson');
@@ -45,5 +48,7 @@ $router->group(['middleware' => 'apiauth'], function() use ($router){
 
     //$router->post('/pokemon/search', 'PokemonController@search');
     $router->post('/pokemon/search', 'PokemonController@search');
+
+    
 });
 

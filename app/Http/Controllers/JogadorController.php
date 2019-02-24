@@ -78,4 +78,15 @@ class JogadorController extends Controller
                         ->header('Content-type', 'text/plain');
     }
 
+    // cadastrar jogador
+    public function insertPokemon(Request $jogador){
+        $x = Jogador::insertGetId([
+                'nome'      => $jogador->input('nome'),
+                'apelido'   => $jogador->input('apelido'),
+                'genero'    => $jogador->input('genero'),
+                'email'     => $jogador->input('email'),
+                'img'       => $jogador->input('img')]);
+        //chamar show as json passadno $x
+    }
+
 }

@@ -17,7 +17,8 @@ class SegurancaMiddleware
     {
         // Pre-Middleware Action
         // dd($request->headers->get('X-Authorization')); //nos headers HTTP
-        if ($request->headers->get('X-Authorization') === 'TRETINHA_DOS_BIXO_DE_PHP_PRO_FABIUS'){
+        // TRETINHA_DOS_BIXO_DE_PHP_PRO_FABIUS em bycript: $2a$10$vVMu7pBlWKwmlgvroMJD4eCyQC8f9gop4hEDw4/gFW4.4JsG08rNe
+        if ($request->headers->get('X-Authorization') === '$2a$10$vVMu7pBlWKwmlgvroMJD4eCyQC8f9gop4hEDw4/gFW4.4JsG08rNe'){
             $response = $next($request);
             return $response;
         }

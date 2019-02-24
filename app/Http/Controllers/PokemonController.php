@@ -107,4 +107,32 @@ class PokemonController extends Controller
                     ->header('Access-Control-Allow-Origin', '*');
         }
     }
+    
+    // cadastrar pokemão
+    public function insertPokemon(Request $bixo){
+        $x = Pokemon::insertGetId([
+                'nome'      => $bixo->input('nome'),
+                'descricao' => $bixo->input('descricao'),
+                'vida'      => $bixo->input('vida'),
+                'ataque'    => $bixo->input('ataque'),
+                'defesa'    => $bixo->input('defesa'),
+                'img'       => $bixo->input('foto'), 
+                'lati'      => $bixo->input('lati'),
+                'long'      => $bixo->input('long')]);
+        //chamar show as json passadno $x
+    }
+
+    // alterar pokemão
+    public function updatePokemon($id, Request $bixo){
+        $x = Pokemon::where('id', $id)->first()->update([
+                'nome'      => $bixo->input('nome'),
+                'descricao' => $bixo->input('descricao'),
+                'vida'      => $bixo->input('vida'),
+                'ataque'    => $bixo->input('ataque'),
+                'defesa'    => $bixo->input('defesa'),
+                'img'       => $bixo->input('foto'), 
+                'lati'      => $bixo->input('lati'),
+                'long'      => $bixo->input('long')]);
+        //chamar show as json passadno $x
+    }
 }
