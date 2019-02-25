@@ -109,30 +109,39 @@ class PokemonController extends Controller
     }
     
     // cadastrar pokemão
-    public function insertPokemon(Request $bixo){
+    public function inserir(Request $bixo){
         $x = Pokemon::insertGetId([
-                'nome'      => $bixo->input('nome'),
-                'descricao' => $bixo->input('descricao'),
-                'vida'      => $bixo->input('vida'),
-                'ataque'    => $bixo->input('ataque'),
-                'defesa'    => $bixo->input('defesa'),
-                'img'       => $bixo->input('foto'), 
-                'lati'      => $bixo->input('lati'),
-                'long'      => $bixo->input('long')]);
-        //chamar show as json passadno $x
+            'nome'      => $bixo->input('nome'),
+            'descricao' => $bixo->input('descricao'),
+            'vida'      => $bixo->input('vida'),
+            'ataque'    => $bixo->input('ataque'),
+            'defesa'    => $bixo->input('defesa'),
+            'img'       => $bixo->input('foto'), 
+            'lati'      => $bixo->input('lati'),
+            'long'      => $bixo->input('long')]);
+        return $this->showAsJson($x);
     }
 
     // alterar pokemão
-    public function updatePokemon($id, Request $bixo){
-        $x = Pokemon::where('id', $id)->first()->update([
-                'nome'      => $bixo->input('nome'),
-                'descricao' => $bixo->input('descricao'),
-                'vida'      => $bixo->input('vida'),
-                'ataque'    => $bixo->input('ataque'),
-                'defesa'    => $bixo->input('defesa'),
-                'img'       => $bixo->input('foto'), 
-                'lati'      => $bixo->input('lati'),
-                'long'      => $bixo->input('long')]);
-        //chamar show as json passadno $x
+    public function atualizar($id, Request $bixo){
+        $pokemao = Pokemon::where('id', $id)->first();
+        $pokemao->nome =      $bixo->input('nome') ?        $bixo->input('nome') :          $pokemao->nome;
+        $pokemao->descricao = $bixo->input('descricao') ?   $bixo->input('descricao') :     $pokemao->descricao;
+        $pokemao->vida =      $bixo->input('vida') ?        $bixo->input('vida') :          $pokemao->vida;
+        $pokemao->ataque =    $bixo->input('ataque') ?      $bixo->input('ataque') :        $pokemao->ataque;
+        $pokemao->defesa =    $bixo->input('defesa') ?      $bixo->input('defesa') :        $pokemao->defesa;
+        $pokemao->img =       $bixo->input('img') ?         $bixo->input('img') :           $pokemao->img;
+        $pokemao->lati =      $bixo->input('lati') ?        $bixo->input('lati') :          $pokemao->lati;
+        $pokemao->long =      $bixo->input('long') ?        $bixo->input('long') :          $pokemao->long;
+        $pokemao = Pokemon::where('id', $id)->update([
+            'nome'      => $pokemao->nome,
+            'descricao' => $pokemao->descricao,
+            'vida'      => $pokemao->vida,
+            'ataque'    => $pokemao->ataque,
+            'defesa'    => $pokemao->defesa,
+            'img'       => $pokemao->foto,
+            'lati'      => $pokemao->lati,
+            'long'      => $pokemao->long]);
+        return $this->showAsJson($id);
     }
 }

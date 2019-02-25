@@ -92,12 +92,27 @@ class ItemController extends Controller
     }
 
     // cadastrar coisa
-    public function insertPokemon(Request $coisa){
+    public function inserir(Request $coisa){
         $x = Pokemon::insertGetId([
             'nome'      => $coisa->input('nome'),
             'bonus'     => $coisa->input('bonus'),
             'valor'     => $coisa->input('valor'),
             'img'       => $coisa->input('img')]);
-        //chamar show as json passadno $x
+        return $this->showAsJson($x);
+    }
+
+    // alterar coisa
+    public function atualizar($id, Request $coisa){
+        $obijeto = Pokemon::where('id', $id)->first();
+        $obijeto->nome =    $coisa->input('nome') ?     $coisa->input('nome') :     $obijeto->nome;
+        $obijeto->bonus =   $coisa->input('bonus') ?    $coisa->input('bonus') :    $obijeto->bonus;
+        $obijeto->valor =   $coisa->input('valor') ?    $coisa->input('valor') :    $obijeto->valor;
+        $obijeto->img =     $coisa->input('img') ?      $coisa->input('img') :      $obijeto->img;
+        $obijeto = Pokemon::where('id', $id)->update([
+            'nome'  => $obijeto->nome,
+            'bonus' => $obijeto->bonus,
+            'valor' => $obijeto->valor,
+            'img'   => $obijeto->img]);
+        return $this->showAsJson($id);
     }
 }
