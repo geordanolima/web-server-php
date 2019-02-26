@@ -93,26 +93,41 @@ class ItemController extends Controller
 
     // cadastrar coisa
     public function inserir(Request $coisa){
-        $x = Pokemon::insertGetId([
-            'nome'      => $coisa->input('nome'),
-            'bonus'     => $coisa->input('bonus'),
-            'valor'     => $coisa->input('valor'),
-            'img'       => $coisa->input('img')]);
-        return $this->showAsJson($x);
+        try{
+            $x = Item::insertGetId([
+                'nome'      => $coisa->input('nome'),
+                'bonus'     => $coisa->input('bonus'),
+                'valor'     => $coisa->input('valor'),
+                'img'       => $coisa->input('img')]);
+            return $this->showAsJson($x);
+        } catch (Exception $e) {
+            return response('Erro au atualizar o registro: ' . $e->getMessage(), 400)
+                    ->header('Content-type', 'text/plain');
+        }
     }
 
     // alterar coisa
     public function atualizar($id, Request $coisa){
-        $obijeto = Pokemon::where('id', $id)->first();
-        $obijeto->nome =    $coisa->input('nome') ?     $coisa->input('nome') :     $obijeto->nome;
-        $obijeto->bonus =   $coisa->input('bonus') ?    $coisa->input('bonus') :    $obijeto->bonus;
-        $obijeto->valor =   $coisa->input('valor') ?    $coisa->input('valor') :    $obijeto->valor;
-        $obijeto->img =     $coisa->input('img') ?      $coisa->input('img') :      $obijeto->img;
-        $obijeto = Pokemon::where('id', $id)->update([
-            'nome'  => $obijeto->nome,
-            'bonus' => $obijeto->bonus,
-            'valor' => $obijeto->valor,
-            'img'   => $obijeto->img]);
-        return $this->showAsJson($id);
+        $obijeto = Item::where('id', $id)->first();
+        if ($obijeto !== null){
+            $obijeto->nome =    $coisa->input('nome') ?     $coisa->input('nome') :     $obijeto->nome;
+            $obijeto->bonus =   $coisa->input('bonus') ?    $coisa->input('bonus') :    $obijeto->bonus;
+            $obijeto->valor =   $coisa->input('valor') ?    $coisa->input('valor') :    $obijeto->valor;
+            $obijeto->img =     $coisa->input('img') ?      $coisa->input('img') :      $obijeto->img;
+            try{
+                $obijeto = Item::where('id', $id)->update([
+                    'nome'  => $obijeto->nome,
+                    'bonus' => $obijeto->bonus,
+                    'valor' => $obijeto->valor,
+                    'img'   => $obijeto->img]);
+                return $this->showAsJson($id);
+                }
+            catch (Exception $e) {
+                return response('Erro au atualizar o registro: ' . $e->getMessage(), 400)
+                        ->header('Content-type', 'text/plain');
+            }
+        }
+        return response('ID nao existe no sistema', 404)
+            ->header('Content-type', 'text/plain');
     }
 }

@@ -110,38 +110,53 @@ class PokemonController extends Controller
     
     // cadastrar pokemão
     public function inserir(Request $bixo){
-        $x = Pokemon::insertGetId([
-            'nome'      => $bixo->input('nome'),
-            'descricao' => $bixo->input('descricao'),
-            'vida'      => $bixo->input('vida'),
-            'ataque'    => $bixo->input('ataque'),
-            'defesa'    => $bixo->input('defesa'),
-            'img'       => $bixo->input('foto'), 
-            'lati'      => $bixo->input('lati'),
-            'long'      => $bixo->input('long')]);
-        return $this->showAsJson($x);
+        try{
+            $x = Pokemon::insertGetId([
+                'nome'      => $bixo->input('nome'),
+                'descricao' => $bixo->input('descricao'),
+                'vida'      => $bixo->input('vida'),
+                'ataque'    => $bixo->input('ataque'),
+                'defesa'    => $bixo->input('defesa'),
+                'img'       => $bixo->input('foto'), 
+                'lati'      => $bixo->input('lati'),
+                'long'      => $bixo->input('long')]);
+            return $this->showAsJson($x);
+        } catch (Exception $e) {
+            return response('Erro au atualizar o registro: ' . $e->getMessage(), 400)
+                    ->header('Content-type', 'text/plain');
+        }
     }
 
     // alterar pokemão
     public function atualizar($id, Request $bixo){
         $pokemao = Pokemon::where('id', $id)->first();
-        $pokemao->nome =      $bixo->input('nome') ?        $bixo->input('nome') :          $pokemao->nome;
-        $pokemao->descricao = $bixo->input('descricao') ?   $bixo->input('descricao') :     $pokemao->descricao;
-        $pokemao->vida =      $bixo->input('vida') ?        $bixo->input('vida') :          $pokemao->vida;
-        $pokemao->ataque =    $bixo->input('ataque') ?      $bixo->input('ataque') :        $pokemao->ataque;
-        $pokemao->defesa =    $bixo->input('defesa') ?      $bixo->input('defesa') :        $pokemao->defesa;
-        $pokemao->img =       $bixo->input('img') ?         $bixo->input('img') :           $pokemao->img;
-        $pokemao->lati =      $bixo->input('lati') ?        $bixo->input('lati') :          $pokemao->lati;
-        $pokemao->long =      $bixo->input('long') ?        $bixo->input('long') :          $pokemao->long;
-        $pokemao = Pokemon::where('id', $id)->update([
-            'nome'      => $pokemao->nome,
-            'descricao' => $pokemao->descricao,
-            'vida'      => $pokemao->vida,
-            'ataque'    => $pokemao->ataque,
-            'defesa'    => $pokemao->defesa,
-            'img'       => $pokemao->foto,
-            'lati'      => $pokemao->lati,
-            'long'      => $pokemao->long]);
-        return $this->showAsJson($id);
+        if ($pokemao !== null){
+            $pokemao->nome =      $bixo->input('nome') ?        $bixo->input('nome') :          $pokemao->nome;
+            $pokemao->descricao = $bixo->input('descricao') ?   $bixo->input('descricao') :     $pokemao->descricao;
+            $pokemao->vida =      $bixo->input('vida') ?        $bixo->input('vida') :          $pokemao->vida;
+            $pokemao->ataque =    $bixo->input('ataque') ?      $bixo->input('ataque') :        $pokemao->ataque;
+            $pokemao->defesa =    $bixo->input('defesa') ?      $bixo->input('defesa') :        $pokemao->defesa;
+            $pokemao->img =       $bixo->input('img') ?         $bixo->input('img') :           $pokemao->img;
+            $pokemao->lati =      $bixo->input('lati') ?        $bixo->input('lati') :          $pokemao->lati;
+            $pokemao->long =      $bixo->input('long') ?        $bixo->input('long') :          $pokemao->long;
+            try{
+                $pokemao = Pokemon::where('id', $id)->update([
+                    'nome'      => $pokemao->nome,
+                    'descricao' => $pokemao->descricao,
+                    'vida'      => $pokemao->vida,
+                    'ataque'    => $pokemao->ataque,
+                    'defesa'    => $pokemao->defesa,
+                    'img'       => $pokemao->foto,
+                    'lati'      => $pokemao->lati,
+                    'long'      => $pokemao->long]);
+                return $this->showAsJson($id);
+            }
+            catch (Exception $e) {
+                return response('Erro au atualizar o registro: ' . $e->getMessage(), 400)
+                        ->header('Content-type', 'text/plain');
+            }
+        }
+        return response('ID nao existe no sistema', 404)
+            ->header('Content-type', 'text/plain');
     }
 }

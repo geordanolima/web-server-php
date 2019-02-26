@@ -80,30 +80,44 @@ class JogadorController extends Controller
 
     // cadastrar vivente
     public function inserir(Request $jogador){
-        $x = Jogador::insertGetId([
-                'nome'      => $jogador->input('nome'),
-                'apelido'   => $jogador->input('apelido'),
-                'genero'    => $jogador->input('genero'),
-                'email'     => $jogador->input('email'),
-                'img'       => $jogador->input('img')]);
-        return $this->showAsJson($x);
+        try{
+            $x = Jogador::insertGetId([
+                    'nome'      => $jogador->input('nome'),
+                    'apelido'   => $jogador->input('apelido'),
+                    'genero'    => $jogador->input('genero'),
+                    'email'     => $jogador->input('email'),
+                    'img'       => $jogador->input('img')]);
+            return $this->showAsJson($x);
+        } catch (Exception $e) {
+            return response('Erro au atualizar o registro: ' . $e->getMessage(), 400)
+                    ->header('Content-type', 'text/plain');
+        }
     }
 
     // alterar vivente
     public function atualizar($id, Request $jogador){
-        $vivente = Pokemon::where('id', $id)->first();
-        $vivente->nome =    $jogador->input('nome') ?       $jogador->input('nome') :       $vivente->nome;
-        $vivente->apelido = $jogador->input('apelido') ?    $jogador->input('apelido') :    $vivente->apelido;
-        $vivente->genero =    $jogador->input('genero') ?   $jogador->input('genero') :     $vivente->genero;
-        $vivente->email =  $jogador->input('email') ?       $jogador->input('email') :      $vivente->email;
-        $vivente->img =     $jogador->input('img') ?        $jogador->input('img') :        $vivente->img;
-        $vivente = Pokemon::where('id', $id)->update([
-            'nome'      => $vivente->nome,
-            'apelido'   => $vivente->apelido,
-            'genero'    => $vivente->genero,
-            'email'     => $vivente->email,
-            'img'       => $vivente->img]);
-        return $this->showAsJson($id);
+        $vivente = Jogador::where('id', $id)->first();
+        if ($vivente !== null){
+            $vivente->nome =    $jogador->input('nome') ?       $jogador->input('nome') :       $vivente->nome;
+            $vivente->apelido = $jogador->input('apelido') ?    $jogador->input('apelido') :    $vivente->apelido;
+            $vivente->genero =    $jogador->input('genero') ?   $jogador->input('genero') :     $vivente->genero;
+            $vivente->email =  $jogador->input('email') ?       $jogador->input('email') :      $vivente->email;
+            $vivente->img =     $jogador->input('img') ?        $jogador->input('img') :        $vivente->img;
+            try{
+                $vivente = Jogador::where('id', $id)->update([
+                    'nome'      => $vivente->nome,
+                    'apelido'   => $vivente->apelido,
+                    'genero'    => $vivente->genero,
+                    'email'     => $vivente->email,
+                    'img'       => $vivente->img]);
+                return $this->showAsJson($id);
+            } catch (Exception $e) {
+                return response('Erro au atualizar o registro: ' . $e->getMessage(), 400)
+                        ->header('Content-type', 'text/plain');
+            }
+        }
+        return response('ID nao existe no sistema', 404)
+            ->header('Content-type', 'text/plain');
     }
 
 }
