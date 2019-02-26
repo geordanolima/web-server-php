@@ -28,5 +28,7 @@ class SegurancaMiddleware
         
         // dd($request->get('token'));
         // Post-Middleware Action
+        return response('Sem autorização para esta requisição', 401)
+                    ->header('Content-type', 'text/plain');
     }
 }
